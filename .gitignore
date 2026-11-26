@@ -50,3 +50,7 @@ desktop.ini
 partner-portal.sql
 # Public build-time values for the client build (must stay after the .env.* rules above)
 !client/.env.production
+
+# Hostinger does not run the build step, so the built frontend that the API serves
+# (server/dist, produced by `npm run build` in server/) is committed on purpose.
+!server/dist/
