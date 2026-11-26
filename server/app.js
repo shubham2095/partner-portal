@@ -1,5 +1,6 @@
 import path from 'node:path'
 import fs from 'node:fs'
+import { fileURLToPath } from 'node:url'
 import express from 'express'
 import cors from 'cors'
 import helmet from 'helmet'
@@ -63,16 +64,26 @@ app.use(requestLogger)
 
 app.use(`/api/${env.apiVersion}`, generalLimiter, apiRoutes)
 
-// Serve the built frontend (client/dist copied alongside this server) when present.
-// Lets a single Node deployment host both the API and the React app on one domain.
-const clientDistPath = path.join(process.cwd(), 'dist')
-const clientIndexPath = path.join(clientDistPath, 'index.html')
+// Serve the built frontend (client/dist copied to server/dist by `npm run build`)
+// when present. Lets a single Node deployment host both the API and the React app.
+// Resolved relative to this file (not process.cwd()) because hosting loaders
+// may start the process from a different working directory.
+const here = path.dirname(fileURLToPath(import.meta.url))
+const clientDistPath = [path.join(here, 'dist'), path.join(process.cwd(), 'dist')].find((dir) =>
+  fs.existsSync(path.join(dir, 'index.html'))
+)
 
-if (fs.existsSync(clientIndexPath)) {
+if (clientDistPath) {
+  const clientIndexPath = path.join(clientDistPath, 'index.html')
   app.use(express.static(clientDistPath))
   app.get(/^(?!\/api\/).*/, (req, res) => {
     res.sendFile(clientIndexPath)
   })
+} else {
+  console.warn(
+    `[app] Frontend build not found (looked in ${path.join(here, 'dist')}). ` +
+      'Only the API is served - run "npm run build" in server/ during deployment.'
+  )
 }
 
 app.use(notFound)
