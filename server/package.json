@@ -9,7 +9,7 @@
     "migrate": "node database/migrate.js",
     "seed": "node database/seed.js",
     "test": "node --test ./tests/*.test.js",
-    "build": "npm install --prefix ../client && npm run build --prefix ../client && node -e \"require('fs').cpSync('../client/dist','./dist',{recursive:true})\""
+    "build": "npm install --prefix ../client --include=dev && npm run build --prefix ../client && node -e \"require('fs').rmSync('./dist',{recursive:true,force:true});require('fs').cpSync('../client/dist','./dist',{recursive:true})\""
   },
   "keywords": [],
   "author": "",

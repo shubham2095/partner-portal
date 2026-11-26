@@ -22,7 +22,31 @@ if (env.isProduction) {
   app.set('trust proxy', 1)
 }
 
-app.use(helmet({ crossOriginResourcePolicy: { policy: 'cross-origin' } }))
+// Strict CSP for the SPA served from this process. Only Google Fonts and Google
+// Identity Services (Sign-In) are allowed beyond 'self'. Inline styles are
+// permitted because the UI libraries (framer-motion, recharts) set style attrs.
+app.use(
+  helmet({
+    crossOriginResourcePolicy: { policy: 'cross-origin' },
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: ["'self'", 'https://accounts.google.com/gsi/client'],
+        styleSrc: ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com', 'https://accounts.google.com/gsi/style'],
+        fontSrc: ["'self'", 'data:', 'https://fonts.gstatic.com'],
+        imgSrc: ["'self'", 'data:', 'blob:', 'https:'],
+        connectSrc: ["'self'", 'https://accounts.google.com/gsi/'],
+        frameSrc: ["'self'", 'https://accounts.google.com/gsi/'],
+        objectSrc: ["'none'"],
+        baseUri: ["'self'"],
+        formAction: ["'self'"],
+        frameAncestors: ["'self'"],
+        // Only force https upgrades when actually served over TLS (production).
+        upgradeInsecureRequests: env.isProduction ? [] : null,
+      },
+    },
+  })
+)
 app.use(cors(corsOptions))
 app.use(
   express.json({

@@ -1,0 +1,22 @@
+{
+  "name": "partner-portal",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Digital Marketing Partner Portal - React client + Express/MySQL API",
+  "engines": { "node": ">=18.18.0" },
+  "scripts": {
+    "install:all": "npm install && npm install --prefix server && npm install --prefix client",
+    "dev": "concurrently -k -n server,client -c blue,green \"npm:dev:server\" \"npm:dev:client\"",
+    "dev:server": "npm run dev --prefix server",
+    "dev:client": "npm run dev --prefix client",
+    "build": "npm run build --prefix server",
+    "start": "npm start --prefix server",
+    "migrate": "npm run migrate --prefix server",
+    "seed": "npm run seed --prefix server",
+    "test": "npm test --prefix server",
+    "lint": "npm run lint --prefix client"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}

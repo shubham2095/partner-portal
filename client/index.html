@@ -13,17 +13,8 @@
     />
     <title>Partner Portal</title>
     <script src="https://accounts.google.com/gsi/client" async></script>
-    <script>
-      // Apply the saved theme before first paint (no flash). First-time
-      // visitors always start in light mode; they can switch and it sticks.
-      (function () {
-        try {
-          if (localStorage.getItem('partner-portal-theme') === 'dark') {
-            document.documentElement.classList.add('dark')
-          }
-        } catch (e) {}
-      })()
-    </script>
+    <!-- Applies the saved theme before first paint. External file so the CSP can stay script-src 'self'. -->
+    <script src="/theme-init.js"></script>
     <style>
       /* First-paint splash. Lives inside #root and is discarded the moment
          React renders into the container — no JS needed to remove it. */

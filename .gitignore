@@ -6,10 +6,12 @@ node_modules/
 .env
 .env.*
 !.env.example
+# Public build-time values (API URL, Google OAuth client id) - no secrets
+!client/.env.production
 
 # Build
-# dist/
-# **/dist/
+dist/
+**/dist/
 
 # User uploads
 uploads/
@@ -46,3 +48,5 @@ PART7_FINAL_REPORT.md
 desktop.ini
 
 partner-portal.sql
+# Public build-time values for the client build (must stay after the .env.* rules above)
+!client/.env.production

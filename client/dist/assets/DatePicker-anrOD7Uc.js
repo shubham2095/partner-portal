@@ -1,1 +1,0 @@
-import{i as e,n as t,s as n}from"./authStore-BhGkf9UG.js";import{t as r}from"./Input-BqfNg23H.js";var i=n(e(),1),a=t(),o=(0,i.forwardRef)(function(e,t){return(0,a.jsx)(r,{ref:t,type:`date`,...e})});export{o as t};
