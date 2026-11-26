@@ -31,11 +31,14 @@
     "multer": "^2.2.0",
     "mysql2": "^3.23.3",
     "node-cron": "^4.6.0",
-    "nodemailer": "^9.0.5",
+    "nodemailer": "^10.6.1",
     "pdfkit": "^0.19.1",
     "qrcode": "^1.5.4"
   },
   "devDependencies": {
     "nodemon": "^3.1.14"
+  },
+  "overrides": {
+    "minimatch": "^11.0.1"
   }
 }
